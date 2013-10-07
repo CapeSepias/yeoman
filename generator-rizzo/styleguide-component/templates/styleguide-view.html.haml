@@ -1,0 +1,8 @@
+<% if (stubs) { %>- <%= nameVar %> = YAML.load(File.read(File.expand_path('../../../data/styleguide/<%= nameVar %>_stubs.yml', __FILE__)))
+<% } %>.card.card--full-width.styleguide-intro
+  .clearfix
+    %h1.split--left.copy--title <%= name %>
+  <% if (description) { %>%p.copy--body
+  	<%= description %><% } %>
+<% if (stubs) { %>- <%= nameVar %>.each_with_index do | stub, i |
+  = sg_component('<%= nameVar %>', <%= nameVar %>: stub, count: i)<% } %>
