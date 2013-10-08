@@ -62,7 +62,7 @@ The generators for each app need to be defined within their own branch in this r
 
 Taking the example of Rizzo, we would add the following to the list of dependencies in Rizzo's `package.json`:
 
-  "yeoman-generators": "git+ssh://git@github.com:lonelyplanet/yeoman#rizzo"
+    "yeoman-generators": "git+ssh://git@github.com:lonelyplanet/yeoman#rizzo"
 
 This will install the rizzo generators from the `rizzo` branch on this repo locally to the `node_modules` folder in your rizzo project folder.
 
