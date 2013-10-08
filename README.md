@@ -9,7 +9,7 @@ Before you get started using any of these, be sure to [install Yeoman][yo-instal
 
 ## Usage
 
-Usage should be baked into whichever project is being worked on (see [Creating a new generator](#creating-a-new-generator) below on how to do this) so the working directory for each of the following examples will be relative to the root directory of that project.
+Usage should be baked into whichever project is being worked on (see [Creating a new generator](#creating-a-new-generator-for-lonely-planet) below on how to do this) so the working directory for each of the following examples will be relative to the root directory of that project.
 
 Be sure to run `npm install` within each project's root directory so the generators get installed.
 
