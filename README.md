@@ -32,21 +32,21 @@ Here is the basics of what this generator will do for you:
 
 + Update the styleguide controller by adding:
     
-  def foo_bar
-    render '/styleguide/foo_bar'
-  end
+    def foo_bar
+      render '/styleguide/foo_bar'
+    end
 
 + Update the left nav in the styleguide helper. How it updates depends on whether you choose a new nav group or not, supposing you add this item to the default "Components" section, it will add:
 
-  {
-    name: "Foo Bar",
-    path: "/styleguide/foo_bar",
-    extra_style: "nav__item--delimited"
-  }
+    {
+      name: "Foo Bar",
+      path: "/styleguide/foo_bar",
+      extra_style: "nav__item--delimited"
+    }
 
 + Update the routes file by adding:
 
-  get 'styleguide/foo_bar' => 'styleguide#foo_bar'
+    get 'styleguide/foo_bar' => 'styleguide#foo_bar'
 
 + Create a new view file for you at `app/views/components/_foo_bar.html.haml`.
 + Create a new *styleguide* view file for you at `app/views/styleguide/foo_bar.html.haml`.
