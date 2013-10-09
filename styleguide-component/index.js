@@ -8,9 +8,10 @@ var util = require('util'),
     YELLOW  = "\033[1;33m",
 
     // Hooks
-    HOOK       = "#===== yeoman hook =====#",
-    HOOK_BEGIN = "#===== yeoman begin-hook =====#",
-    HOOK_END   = "#===== yeoman end-hook =====#";
+    R_HOOK       = "#===== yeoman hook =====#",
+    R_HOOK_BEGIN = "#===== yeoman begin-hook =====#",
+    R_HOOK_END   = "#===== yeoman end-hook =====#",
+    C_HOOK       = "/*===== yeoman hook =====*/";
 
 var StyleguideComponentGenerator = module.exports = function StyleguideComponentGenerator(args, options, config) {
   // By calling `NamedBase` here, we get the argument to the subgenerator call as `this.name`.
@@ -66,13 +67,23 @@ StyleguideComponentGenerator.prototype.newFiles = function() {
   }
 };
 
+StyleguideComponentGenerator.prototype.sass = function() {
+  var path   = 'app/assets/stylesheets/styleguide.sass',
+      file   = this.readFileAsString(path),
+      insert = "@import '_common-ui/_"+this.nameVar+"'";
+
+  if (file.indexOf(insert) === -1) {
+    this.write(path, file.replace(C_HOOK, insert+'\n'+C_HOOK));
+  }
+};
+
 StyleguideComponentGenerator.prototype.controller = function() {
   var path   = 'app/controllers/styleguide_controller.rb',
       file   = this.readFileAsString(path),
       insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.nameVar+"'\n  end";
 
   if (file.indexOf(insert) === -1) {
-    this.write(path, file.replace(HOOK, insert+'\n\n  '+HOOK));
+    this.write(path, file.replace(R_HOOK, insert+'\n\n  '+R_HOOK));
   } else {
     console.log(YELLOW+"app/controllers/styleguide_controller.rb no change necessary."+DEFAULT);
   }
@@ -84,9 +95,9 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
       path         = 'app/helpers/styleguide_helper.rb',
       file         = this.readFileAsString(path),
       insert       = "{\n              name: \"Pagination\",\n              path: \"/styleguide/pagination\",\n              extra_style: \"nav__item--delimited\"\n            }",
-      before       = file.split(HOOK_BEGIN)[0],
-      after        = file.split(HOOK_END)[1],
-      middle       = file.replace(before+HOOK_BEGIN, "").replace(HOOK_END+after, ""),
+      before       = file.split(R_HOOK_BEGIN)[0],
+      after        = file.split(R_HOOK_END)[1],
+      middle       = file.replace(before+R_HOOK_BEGIN, "").replace(R_HOOK_END+after, ""),
       groups       = JSON.parse(middle.replace(/\b([a-z-_]+)\:/gi, '"$1":')).groups, // That regex just wraps the keys in "" to make it valid JSON.
       groupChoices = [];
 
@@ -144,9 +155,9 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
         });
       }
 
-      toWrite = before+HOOK_BEGIN+'\n    ';
+      toWrite = before+R_HOOK_BEGIN+'\n    ';
       toWrite+= JSON.stringify({groups: groups}, null, 2).replace(/"([a-z-_]+)"\:/gi, '$1:').replace(/\n/g, '\n    ');
-      toWrite+= '\n    '+HOOK_END+after;
+      toWrite+= '\n    '+R_HOOK_END+after;
 
       this.write(path, toWrite);
 
@@ -162,6 +173,6 @@ StyleguideComponentGenerator.prototype.routes = function() {
       insert = "get 'styleguide/"+this.nameVar+"'        => 'styleguide#"+this.nameVar+"'";
 
   if (file.indexOf(insert) === -1) {
-    this.write(path, file.replace(HOOK, insert+'\n  '+HOOK));
+    this.write(path, file.replace(R_HOOK, insert+'\n  '+R_HOOK));
   }
 };
