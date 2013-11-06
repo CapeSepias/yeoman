@@ -5,4 +5,4 @@
   <% if (description) { %>%p.copy--body
   	<%= description %><% } %>
 <% if (stubs) { %>- <%= nameVar %>.each_with_index do | stub, i |
-  = sg_component('<%= nameVar %>', <%= nameVar %>: stub, count: i)<% } %>
+  = sg_component('<%= nameVar %>', properties: stub, count: i)<% } %>
