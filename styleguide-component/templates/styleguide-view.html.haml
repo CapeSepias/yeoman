@@ -1,5 +1,5 @@
 <% if (stubs) { %>- <%= nameVar %> = YAML.load(File.read(File.expand_path('../../../data/styleguide/<%= nameVar %>_stubs.yml', __FILE__)))
-<% } %>.card.card--full-width.styleguide-intro
+<% } %>.card.styleguide-intro.copy--body.context--content
   .clearfix
     %h1.split--left.copy--title <%= name %>
   <% if (description) { %>%p.copy--body
