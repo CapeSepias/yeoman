@@ -143,15 +143,13 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
           title: props.newGroupName,
           items: [{
             name: this.name.charAt(0).toUpperCase()+this.name.slice(1),
-            path: "/styleguide/"+this.nameVar,
-            extra_style: "nav__item--delimited"
+            path: "/styleguide/"+this.nameVar
           }]
         });
       } else {
         groups[props.group].items.push({
           name: this.name.charAt(0).toUpperCase()+this.name.slice(1),
-          path: "/styleguide/"+this.nameVar,
-          extra_style: "nav__item--delimited"
+          path: "/styleguide/"+this.nameVar
         });
       }
 
