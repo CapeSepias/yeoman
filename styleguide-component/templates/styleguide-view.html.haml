@@ -1,7 +1,7 @@
 <% if (stubs) { %>- <%= nameVar %> = YAML.load(File.read(File.expand_path('../../../data/styleguide/<%= nameVar %>_stubs.yml', __FILE__)))
 <% } %>.card.styleguide-intro.copy--body.context--content
   .clearfix
-    %h1.split--left.copy--title <%= name %>
+    %h1.copy--h1 <%= name %>
   <% if (description) { %>%p.copy--body
   	<%= description %><% } %>
 <% if (stubs) { %>- <%= nameVar %>.each_with_index do | stub, i |
