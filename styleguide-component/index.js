@@ -91,7 +91,7 @@ StyleguideComponentGenerator.prototype.sass = function() {
 StyleguideComponentGenerator.prototype.controller = function() {
   var path   = 'app/controllers/styleguide_controller.rb',
       file   = this.readFileAsString(path),
-      insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.nameVar+"'\n  end";
+      insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.componentType+"/"+this.nameVar+"'\n  end";
 
   if (file.indexOf(insert) === -1) {
     this.write(path, file.replace(R_HOOK, insert+'\n\n  '+R_HOOK));
