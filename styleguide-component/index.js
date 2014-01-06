@@ -40,6 +40,16 @@ StyleguideComponentGenerator.prototype.askFor = function askFor() {
       default: true
     },
     {
+      type: 'list',
+      name: 'componentType',
+      message: 'Choose the component type',
+      choices: [
+        'JS Components',
+        'UI Components'
+      ],
+      default: 0
+    },
+    {
       type: 'confirm',
       name: 'newGroup',
       message: 'Would you like to include this in a *new* group in the left nav?',
@@ -52,6 +62,7 @@ StyleguideComponentGenerator.prototype.askFor = function askFor() {
       this.stubs = props.stubs;
       this.stylesheetDir = props.stylesheetDir;
       this.newGroup = props.newGroup;
+      this.componentType = this._.slugify(props.componentType).replace(/-/g, '_');
 
       cb();
     }.bind(this));
@@ -90,15 +101,16 @@ StyleguideComponentGenerator.prototype.controller = function() {
 };
 
 StyleguideComponentGenerator.prototype.helper = function( ) {
-  var cb           = this.async();
+  var cb           = this.async(),
       exists       = false,
       path         = 'app/helpers/styleguide_helper.rb',
       file         = this.readFileAsString(path),
       insert       = "{\n              name: \"Pagination\",\n              path: \"/styleguide/pagination\",\n              extra_style: \"nav__item--delimited\"\n            }",
       before       = file.split(R_HOOK_BEGIN)[0],
       after        = file.split(R_HOOK_END)[1],
-      middle       = file.replace(before+R_HOOK_BEGIN, "").replace(R_HOOK_END+after, ""),
-      groups       = JSON.parse(middle.replace(/\b([a-z-_]+)\:/gi, '"$1":')).groups, // That regex just wraps the keys in "" to make it valid JSON.
+      middle       = file.replace(before+R_HOOK_BEGIN, "").replace(R_HOOK_END+after, "").replace(/\b([a-z-_]+)\:/gi, '"$1":'), // That regex just wraps the keys in "" to make it valid JSON.
+      navItems     = JSON.parse(middle),
+      groups       = eval('navItems.'+this.componentType),
       groupChoices = [];
 
   groups.forEach(function(group, i) {
