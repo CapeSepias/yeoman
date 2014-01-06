@@ -71,7 +71,7 @@ StyleguideComponentGenerator.prototype.askFor = function askFor() {
 StyleguideComponentGenerator.prototype.newFiles = function() {
   this.copy('partial.html.haml', 'app/views/components/_'+this.nameVar+'.html.haml');
   this.copy('stylesheet.sass', 'app/assets/stylesheets/_common-ui/_'+this.nameVar+'.sass');
-  this.template('styleguide-view.html.haml', 'app/views/styleguide/'+this.nameVar+'.html.haml');
+  this.template('styleguide-view.html.haml', 'app/views/styleguide/'+this.componentType+'/'+this.nameVar+'.html.haml');
 
   if (this.stubs) {
     this.template('stubs.yml', 'app/data/styleguide/'+this.nameVar+'_stubs.yml');
