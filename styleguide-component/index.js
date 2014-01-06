@@ -165,8 +165,11 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
         });
       }
 
+      // Update navItems with the updated section.
+      eval('navItems.'+this.componentType+' = groups');
+
       toWrite = before+R_HOOK_BEGIN+'\n    ';
-      toWrite+= JSON.stringify({groups: groups}, null, 2).replace(/"([a-z-_]+)"\:/gi, '$1:').replace(/\n/g, '\n    ');
+      toWrite+= JSON.stringify(navItems, null, 2).replace(/"([a-z-_]+)"\:/gi, '$1:').replace(/\n/g, '\n    ');
       toWrite+= '\n    '+R_HOOK_END+after;
 
       this.write(path, toWrite);
