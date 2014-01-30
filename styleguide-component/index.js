@@ -76,16 +76,6 @@ StyleguideComponentGenerator.prototype.newFiles = function() {
   }
 };
 
-StyleguideComponentGenerator.prototype.sass = function() {
-  var path   = 'app/assets/stylesheets/styleguide.sass',
-      file   = this.readFileAsString(path),
-      insert = "@import 'components/_"+this.nameVar+"'";
-
-  if (file.indexOf(insert) === -1) {
-    this.write(path, file.replace(C_HOOK, insert+'\n'+C_HOOK));
-  }
-};
-
 StyleguideComponentGenerator.prototype.controller = function() {
   var path   = "app/controllers/styleguide_controller.rb",
       file   = this.readFileAsString(path),
