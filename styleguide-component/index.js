@@ -62,7 +62,8 @@ StyleguideComponentGenerator.prototype.askFor = function askFor() {
       this.stubs = props.stubs;
       this.stylesheetDir = props.stylesheetDir;
       this.newGroup = props.newGroup;
-      this.componentType = this._.slugify(props.componentType).replace(/-/g, '_');
+      this.componentTypeSlug = this._.slugify(props.componentType);
+      this.componentTypeReference = this.componentTypeSlug.replace(/-/g, '_');
 
       cb();
     }.bind(this));
@@ -70,8 +71,8 @@ StyleguideComponentGenerator.prototype.askFor = function askFor() {
 
 StyleguideComponentGenerator.prototype.newFiles = function() {
   this.copy('partial.html.haml', 'app/views/components/_'+this.nameVar+'.html.haml');
-  this.copy('stylesheet.sass', 'app/assets/stylesheets/_common-ui/_'+this.nameVar+'.sass');
-  this.template('styleguide-view.html.haml', 'app/views/styleguide/'+this.componentType+'/'+this.nameVar+'.html.haml');
+  this.copy('stylesheet.sass', 'app/assets/stylesheets/components/_'+this.nameVar+'.sass');
+  this.template('styleguide-view.html.haml', 'app/views/styleguide/'+this.componentTypeSlug+'/'+this.nameVar+'.html.haml');
 
   if (this.stubs) {
     this.template('stubs.yml', 'app/data/styleguide/'+this.nameVar+'_stubs.yml');
@@ -81,7 +82,7 @@ StyleguideComponentGenerator.prototype.newFiles = function() {
 StyleguideComponentGenerator.prototype.sass = function() {
   var path   = 'app/assets/stylesheets/styleguide.sass',
       file   = this.readFileAsString(path),
-      insert = "@import '_common-ui/_"+this.nameVar+"'";
+      insert = "@import 'components/_"+this.nameVar+"'";
 
   if (file.indexOf(insert) === -1) {
     this.write(path, file.replace(C_HOOK, insert+'\n'+C_HOOK));
@@ -91,7 +92,7 @@ StyleguideComponentGenerator.prototype.sass = function() {
 StyleguideComponentGenerator.prototype.controller = function() {
   var path   = 'app/controllers/styleguide_controller.rb',
       file   = this.readFileAsString(path),
-      insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.componentType+"/"+this.nameVar+"'\n  end";
+      insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.componentTypeSlug+"/"+this.nameVar+"'\n  end";
 
   if (file.indexOf(insert) === -1) {
     this.write(path, file.replace(R_HOOK, insert+'\n\n  '+R_HOOK));
@@ -110,7 +111,7 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
       after        = file.split(R_HOOK_END)[1],
       middle       = file.replace(before+R_HOOK_BEGIN, "").replace(R_HOOK_END+after, "").replace(/\b([a-z-_]+)\:/gi, '"$1":'), // That regex just wraps the keys in "" to make it valid JSON.
       navItems     = JSON.parse(middle),
-      groups       = eval('navItems.'+this.componentType),
+      groups       = eval('navItems.'+this.componentTypeReference),
       groupChoices = [];
 
   groups.forEach(function(group, i) {
@@ -166,7 +167,7 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
       }
 
       // Update navItems with the updated section.
-      eval('navItems.'+this.componentType+' = groups');
+      eval('navItems.'+this.componentTypeReference+' = groups');
 
       toWrite = before+R_HOOK_BEGIN+'\n    ';
       toWrite+= JSON.stringify(navItems, null, 2).replace(/"([a-z-_]+)"\:/gi, '$1:').replace(/\n/g, '\n    ');
@@ -183,7 +184,8 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
 StyleguideComponentGenerator.prototype.routes = function() {
   var path   = 'config/routes.rb',
       file   = this.readFileAsString(path),
-      insert = "get 'styleguide/"+this.nameVar+"'        => 'styleguide#"+this.nameVar+"'";
+      type   = this.componentTypeSlug === 'js-components' ? 'js-components/' : '';
+      insert = "get 'styleguide/"+type+this.nameVar+"'        => 'styleguide#"+this.nameVar+"'";
 
   if (file.indexOf(insert) === -1) {
     this.write(path, file.replace(R_HOOK, insert+'\n  '+R_HOOK));
