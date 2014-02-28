@@ -1,0 +1,41 @@
+{
+  "name": "generator-rizzo",
+  "version": "0.0.0",
+  "description": "Rizzo Yeoman Generator",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/remybach/generator-rizzo",
+  "bugs": "https://github.com/remybach/generator-rizzo/issues",
+  "author": {
+    "name": "Rémy Bach",
+    "email": "",
+    "url": "https://github.com/remybach"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/remybach/generator-rizzo.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.13.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0-rc.1"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
