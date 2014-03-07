@@ -6,9 +6,9 @@ require([ "jquery", "public/assets/javascripts/lib/components/<%= nameVar %>.js"
 
     describe("Initialisation", function() {
 
-      beforeEach = function(){
-        window.<%= nameVar %> = new <%= constructorName %>();
-      };
+      beforeEach(function() {
+        window.<%= nameVar %> = new <%= constructorName %>({});
+      });
 
       it("is defined", function() {
         expect(<%= nameVar %>).toBeDefined();

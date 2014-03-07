@@ -9,10 +9,10 @@ define([ "jquery" ], function($) {
   "use strict";
 
   // @args = {}
-  // $el: {string} selector for parent element
+  // el: {string} selector for parent element
   var <%= constructorName %> = function(args) {
     this.$listener = $("#js-card-holder" || args.$listener);
-    this.$el = args.$el;
+    this.$el = $(args.el);
     this.$el && this.init();
   }, _this;
 
