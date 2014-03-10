@@ -17,9 +17,9 @@ define([ "jquery" ], function($) {
   }, _this;
 
   <%= constructorName %>.prototype.init = function() {
+    _this = this;
     this.listen();
     this.broadcast();
-    _this = this;
   };
 
   // -------------------------------------------------------------------------
@@ -50,7 +50,7 @@ define([ "jquery" ], function($) {
   // Private Functions
   // -------------------------------------------------------------------------
 
-  <%= constructorName %>._example = function() {
+  <%= constructorName %>.prototype._example = function() {
 
   };
 
