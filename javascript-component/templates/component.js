@@ -11,7 +11,7 @@ define([ "jquery" ], function($) {
   // @args = {}
   // el: {string} selector for parent element
   var <%= constructorName %> = function(args) {
-    this.$listener = $("#js-card-holder" || args.$listener);
+    this.$listener = $("#js-row--content" || args.$listener);
     this.$el = $(args.el);
     this.$el && this.init();
   }, _this;
