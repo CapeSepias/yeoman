@@ -8,7 +8,7 @@ define([ "jquery" ], function($) {
 
   "use strict";
 
-  var config = {
+  var defaults = {
     listener: "#js-row--content"
   };
 
@@ -16,11 +16,11 @@ define([ "jquery" ], function($) {
   // el: {string} selector for parent element
   // listener: {string} selector for the listener
   function <%= constructorName %>(args) {
-    $.extend(config, args);
+    this.config = $.extend({}, defaults, args);
 
-    this.$listener = $(config.listener);
-    this.$el = $(config.el);
-    this.$el && this.init();
+    this.$listener = $(this.config.listener);
+    this.$el = $(this.config.el);
+    this.$el.length && this.init();
   }
 
   <%= constructorName %>.prototype.init = function() {
