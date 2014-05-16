@@ -48,7 +48,7 @@ define([ "jquery" ], function($) {
   // Private Functions
   // -------------------------------------------------------------------------
 
-  <%= constructorName %>.prototype._example = function() {
+  <%= constructorName %>.prototype._example = function(event) {
 
   };
 
