@@ -8,13 +8,16 @@ define([ "jquery" ], function($) {
 
   "use strict";
 
+  var _this;
+
   // @args = {}
   // el: {string} selector for parent element
-  var <%= constructorName %> = function(args) {
+  // listener: {string} selector for the listener
+  function <%= constructorName %>(args) {
     this.$listener = $(args.listener || "#js-row--content");
     this.$el = $(args.el);
     this.$el && this.init();
-  }, _this;
+  }
 
   <%= constructorName %>.prototype.init = function() {
     _this = this;
