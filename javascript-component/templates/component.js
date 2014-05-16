@@ -8,8 +8,6 @@ define([ "jquery" ], function($) {
 
   "use strict";
 
-  var _this;
-
   // @args = {}
   // el: {string} selector for parent element
   // listener: {string} selector for the listener
@@ -20,7 +18,6 @@ define([ "jquery" ], function($) {
   }
 
   <%= constructorName %>.prototype.init = function() {
-    _this = this;
     this.listen();
     this.broadcast();
   };
@@ -31,9 +28,7 @@ define([ "jquery" ], function($) {
 
   <%= constructorName %>.prototype.listen = function() {
 
-    this.$listener.on(":eventType/event", function() {
-      _this._example();
-    });
+    this.$listener.on(":eventType/event", this._example.bind(this));
 
   };
 
@@ -44,7 +39,7 @@ define([ "jquery" ], function($) {
   <%= constructorName %>.prototype.broadcast = function() {
 
     this.$el.on("click", function() {
-      _this.$el.trigger(":eventType/event");
+      this.$el.trigger(":eventType/event");
     });
 
   };
