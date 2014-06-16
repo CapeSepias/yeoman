@@ -1,5 +1,6 @@
 var util = require("util"),
     yeoman = require("yeoman-generator"),
+    YAML = require('yamljs'),
 
     // ANSI Colours
     DEFAULT = "\033[0m",
@@ -76,27 +77,12 @@ StyleguideComponentGenerator.prototype.newFiles = function() {
   }
 };
 
-StyleguideComponentGenerator.prototype.controller = function() {
-  var path   = "app/controllers/styleguide_controller.rb",
-      file   = this.readFileAsString(path),
-      insert = "def "+this.nameVar+"\n    render '/styleguide/"+this.componentTypeSlug+"/"+this.nameVar+"'\n  end";
-
-  if (file.indexOf(insert) === -1) {
-    this.write(path, file.replace(R_HOOK, insert + "\n\n  "+R_HOOK));
-  } else {
-    console.log(YELLOW+"app/controllers/styleguide_controller.rb no change necessary."+DEFAULT);
-  }
-};
-
 StyleguideComponentGenerator.prototype.helper = function( ) {
   var cb           = this.async(),
       exists       = false,
       path         = "app/helpers/styleguide_helper.rb",
       file         = this.readFileAsString(path),
-      before       = file.split(R_HOOK_BEGIN)[0],
-      after        = file.split(R_HOOK_END)[1],
-      middle       = file.replace(before+R_HOOK_BEGIN, "").replace(R_HOOK_END+after, "").replace(/\b([a-z-_]+)\:/gi, "\"$1\":"), // That regex just wraps the keys in "" to make it valid JSON.
-      navItems     = JSON.parse(middle),
+      navItems     = YAML.parse(yamlString);
       groups       = eval("navItems." + this.componentTypeReference),
       groupChoices = [];
 
@@ -155,25 +141,11 @@ StyleguideComponentGenerator.prototype.helper = function( ) {
       // Update navItems with the updated section.
       eval("navItems." + this.componentTypeReference + " = groups");
 
-      toWrite = before+R_HOOK_BEGIN + "\n    ";
-      toWrite+= JSON.stringify(navItems, null, 2).replace(/"([a-z-_]+)"\:/gi, "$1:").replace(/\n/g, "\n    ");
-      toWrite+= "\n    " + R_HOOK_END + after;
-
+      yamlString = YAML.stringify(navItems, 2);
       this.write(path, toWrite);
 
       cb();
     }.bind(this));
 
-  }
-};
-
-StyleguideComponentGenerator.prototype.routes = function() {
-  var path   = "config/routes.rb",
-      file   = this.readFileAsString(path),
-      type   = this.componentTypeSlug === 'js-components' ? 'js-components/' : '';
-      insert = "get 'styleguide/"+type+this.nameVar+"'        => 'styleguide#"+this.nameVar+"'";
-
-  if (file.indexOf(insert) === -1) {
-    this.write(path, file.replace(R_HOOK, insert + "\n  " + R_HOOK));
   }
 };
